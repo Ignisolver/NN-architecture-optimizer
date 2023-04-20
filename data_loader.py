@@ -1,26 +1,20 @@
-from constans_and_types import RAW_DATA_PATH, READY_DATA_PATH
+import numpy as np
+import cv2
+import random
+set_path = r'C:\Users\Lenovo\Documents\stochastyka\set'
 
+arr = []
 
-class DataLoader:
-    def __init__(self, n_samples=None, test_size=0.7):
-        """
-        :param n_samples: number of samples from data set
-            if default (None) - all samples
-        :param test_size: test_size / n_samples e.g.
-            default: 0.7
-        """
-        pass
+for photo in os.listdir(set_path):
+    im = cv2.imread(set_path + '\\' + photo, 0)
+    reshaped = np.reshape(im, (50*50))
+    arr.append((int('class1' in photo), reshaped))
 
-    def load_training_data(self):
-        """
-        Load data for training
-        :return: X_train, y_train
-        """
-        pass
+random.shuffle(arr)
+data = np.array(arr)
 
-    def load_test_data(self):
-        """
-        Load data for test
-        :return: X_test, y_test
-        """
-        pass
+train_set = data[:int(len(data)*3/4)]
+test_set = data[int(len(data)*3/4):]
+
+print(train_set.shape)
+print(test_set.shape)
