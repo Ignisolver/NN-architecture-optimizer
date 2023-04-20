@@ -8,25 +8,12 @@ class GeneticAlgorithm:
         pass
 
     def run_algorithm(self):
+
+
+    def do_mutations(self, population: Population, n):
         pass
 
-    def _initialize_population(self) -> Population:
-        pass
-
-    def _mutation(self, net: NetworkData):
-        """
-        First and last Layer schould not be change
-        :param net:
-        :return:
-        """
-        pass
-
-    def _cross(self, net_1: NetworkData, net_2: NetworkData):
-        """
-        First and last Layer schould not be change
-        :param net:
-        :return:
-        """
+    def do_crossing(self, population: Population, n):
         pass
 
     def _evaluate_population(self, pop: Population) -> Tuple[NetworkData,

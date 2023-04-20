@@ -19,7 +19,8 @@ Algorytm genetyczny ma za zadanie dobrać hiperparametry sieci neuronowej:
 TODO:
 - zaimplementować logikę algorytmu
 - operator mutacji
-- operator krzyżowania
+  - operator krzyżowania
+- 
 - tworzenie sieci z genotypu
 - ocena fenotypu
 
