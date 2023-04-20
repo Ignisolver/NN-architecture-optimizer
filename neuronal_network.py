@@ -1,4 +1,4 @@
-from constans_and_types import NetworkData
+from genetic_algorithm.net_data import NetworkData
 
 
 class NN:

@@ -3,7 +3,9 @@ from functools import cache
 from time import time, sleep
 from typing import Tuple
 
-from constans_and_types import Population, NetworkData, SizeParams
+from constans_and_types import SizeParams
+from genetic_algorithm.population import Population
+from genetic_algorithm.net_data import NetworkData
 from neuronal_network import NN
 
 
