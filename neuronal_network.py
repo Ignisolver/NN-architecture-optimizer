@@ -2,7 +2,7 @@ from constans_and_types import NetworkData
 
 
 class NN:
-    def __init__(self):
+    def __init__(self, data: NetworkData):
         pass
 
     def train_network(self):
