@@ -38,6 +38,7 @@ class NN:
             metrics=['accuracy']
         )
         # tutaj zalezy czy mamy juz podzial na train i test.
+
         self.history = self.model.fit(trainX1, trainY, batch_size=32, epochs=epoch, verbose=2)
 
     def evaluate_network(self):
@@ -45,6 +46,7 @@ class NN:
         stats = self.model.evaluate(testX1, testY, batch_size=32, verbose=2)
         self.loss = stats[0]
         self.acc = stats[1]
+        return self.acc
 
     def plot_history(self):
         plt.title('Classification Accuracy')

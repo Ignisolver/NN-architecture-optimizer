@@ -68,8 +68,8 @@ class GeneticAlgorithm:
         nn = NN(net)
         nn.train_network()
         # todo change
-        # acc = nn.evaluate_network()
-        acc = sum(net.list_)
+        acc = nn.evaluate_network()
+        # acc = sum(net.list_)
         return acc
 
 
