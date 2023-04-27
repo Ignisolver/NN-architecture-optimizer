@@ -36,11 +36,13 @@ positives_path = root_path + r'\1'
 set_path = root_path + r'\set'
 
 for i, photo in enumerate(os.listdir(negatives_path)):
-    if i >= dataset_size:
-        break
-    shutil.copy(negatives_path + '\\' + photo, set_path + '\\' + photo)
+    curr_path = negatives_path + '\\' + photo
+    img = cv2.imread(curr_path, cv2.IMREAD_GRAYSCALE)
+    equ = cv2.equalizeHist(img)
+    cv2.imwrite(set_path + '\\' + photo, equ)
 
 for i, photo in enumerate(os.listdir(positives_path)):
-    if i >= dataset_size:
-        break
-    shutil.copy(positives_path + '\\' + photo, set_path + '\\' + photo)
+    curr_path = positives_path + '\\' + photo
+    img = cv2.imread(curr_path, cv2.IMREAD_GRAYSCALE)
+    equ = cv2.equalizeHist(img)
+    cv2.imwrite(set_path + '\\' + photo, equ)
