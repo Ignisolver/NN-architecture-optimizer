@@ -1,11 +1,10 @@
 from dataclasses import dataclass
 from functools import cache
-from time import time, sleep
-from typing import Tuple
+from time import time
 
 from constans_and_types import SizeParams
-from genetic_algorithm.population import Population
-from genetic_algorithm.net_data import NetworkData
+from population import Population
+from net_data import NetworkData
 from neuronal_network import NN
 
 
@@ -40,7 +39,7 @@ class GeneticAlgorithm:
                               self.layer_param)
         self._evaluate_population(pop)
         for e_nr in range(self.num_epoch):
-            best = pop.get_best(self.pop_par.n_best)
+            best = pop.get_best_stat(self.pop_par.n_best)
             print("BEST: ", best.list_[0])
             leave = best.get_best(self.pop_par.leave)
             cross = best.do_crossing(self.pop_par.cross)
@@ -65,11 +64,10 @@ class GeneticAlgorithm:
     @staticmethod
     @cache
     def _evaluate_network(net: NetworkData):
-        nn = NN(net)
-        nn.train_network()
-        # todo change
-        acc = nn.evaluate_network()
-        # acc = sum(net.list_)
+        # nn = NN(net)
+        # nn.train_network()
+        # acc = nn.evaluate_network()
+        acc = sum(net)
         return acc
 
 

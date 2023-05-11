@@ -1,8 +1,9 @@
 from random import randrange, sample
 from typing import List, Self, Tuple
 
+from numpy.random import rand
+from net_data import NetworkData
 from constans_and_types import SizeParams
-from genetic_algorithm.net_data import NetworkData
 
 
 class Population:
@@ -61,6 +62,26 @@ class Population:
         return mutated
 
     def get_best(self, n=None):
+        pop = self._sort_pop(n)
+        return pop
+
+    def get_best_stat(self, n=None):
+        new_pop = Population(self.net_param)
+        sorted_pop = self._sort_pop(n)
+        max_acc = sorted_pop.list_[0].acc
+        indi_acc = []
+        for indi in sorted_pop:
+            indi_acc.append((indi, indi.acc/max_acc))
+        while len(new_pop.list_) < n:
+            rand_nr = rand(1)
+            for indi, acc in indi_acc:
+                if acc >= rand_nr:
+                    if indi not in new_pop.list_:
+                        new_pop.list_.append(indi)
+            new_pop = self._sort_pop(n)
+        return new_pop
+
+    def _sort_pop(self, n=None):
         if n is None:
             n = len(self.list_)
         pop = Population(self.net_param)

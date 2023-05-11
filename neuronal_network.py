@@ -1,4 +1,4 @@
-from genetic_algorithm.net_data import NetworkData
+from net_data import NetworkData
 from keras.models import Sequential
 from keras.layers import MaxPool2D
 from keras.layers import Conv2D
