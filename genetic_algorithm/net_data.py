@@ -69,6 +69,9 @@ class NetworkData:
         child.list_ = part_a + part_b
         return child
 
+    def __getitem__(self, item):
+        return self.list_[item]
+
     def __repr__(self):
         return "\t" + str(self.list_) + f" ACC: {self.acc}"
 

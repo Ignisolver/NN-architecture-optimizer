@@ -1,8 +1,8 @@
 from collections import namedtuple
 from dataclasses import dataclass
 from pathlib import Path
-from random import randrange
 from typing import NewType
+from keras.models import load_model
 
 
 PROJECT_PATH = Path(__file__).parent
@@ -13,6 +13,7 @@ MODELS_PATH = PROJECT_PATH.joinpath("models")
 Layer = NewType("Layer", int)
 
 Sets = namedtuple("Sets", ["trainX", "trainY", "testX", "testY"])
+BASE_MODEL = load_model(MODELS_PATH.joinpath('Ready_base_model'))
 
 
 @dataclass
