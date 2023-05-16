@@ -2,20 +2,19 @@ import numpy as np
 import cv2
 import random
 import os
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OneHotEncoder
 from neuronal_network import NN
+from constans_and_types import PROJECT_PATH
 
 def load_data():
-    from sklearn.model_selection import train_test_split
-    from sklearn.preprocessing import OneHotEncoder
+    set_path = PROJECT_PATH.joinpath('set')
 
-    set_path = r'C:\Users\Macie\PycharmProjects\NN-architecture-optimizer\set'
-
-    arr = []
     images=[]
     labels=[]
 
     for photo in os.listdir(set_path):
-        im = cv2.imread(set_path + '\\' + photo, 0)
+        im = cv2.imread(str(set_path.joinpath(photo)), 0)
         # reshaped = np.reshape(im, (50*50))
         images.append(im/255)
         labels.append(int('class1' in photo))
@@ -35,7 +34,7 @@ def load_data():
 trainX,trainY,testX,testY=load_data()
 
 nn=NN([128,64,64,24])
-nn.add_layer()
+nn.add_layers()
 nn.train_network(np.array(trainX),trainY,epoch=20)
 nn.evaluate_network(np.array(testX),testY)
 

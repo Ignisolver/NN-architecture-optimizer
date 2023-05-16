@@ -1,3 +1,4 @@
+from collections import namedtuple
 from dataclasses import dataclass
 from pathlib import Path
 from random import randrange
@@ -7,8 +8,11 @@ from typing import NewType
 PROJECT_PATH = Path(__file__).parent
 RAW_DATA_PATH = PROJECT_PATH.joinpath("raw_data")
 READY_DATA_PATH = PROJECT_PATH.joinpath("ready_data")
+MODELS_PATH = PROJECT_PATH.joinpath("models")
 
 Layer = NewType("Layer", int)
+
+Sets = namedtuple("Sets", ["trainX", "trainY", "testX", "testY"])
 
 
 @dataclass
