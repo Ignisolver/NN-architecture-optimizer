@@ -122,6 +122,9 @@ venv.bak/
 
 # ignore set
 set/
+0/
+1/
+archive/
 
 # mypy
 .mypy_cache/

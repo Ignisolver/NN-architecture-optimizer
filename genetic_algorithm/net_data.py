@@ -1,5 +1,5 @@
 from random import randrange
-from typing import List, Self
+from typing import List
 
 from constans_and_types import SizeParams
 
@@ -21,7 +21,7 @@ class NetworkData:
         self.acc_ = val
         self.new = False
 
-    def random_initialize(self, size, f_l_size) -> Self:
+    def random_initialize(self, size, f_l_size):
         self.list_.append(f_l_size[0])
         for l_nr in range(1, size-1):
             l_size = randrange(*self.layer_par)
@@ -29,7 +29,7 @@ class NetworkData:
         self.list_.append(f_l_size[1])
         return self
 
-    def mutation(self, n=1) -> Self:
+    def mutation(self, n=1):
         mutated = NetworkData(self.layer_par)
         mutated.list_ = self.list_[:]
         mutated_places = [None]

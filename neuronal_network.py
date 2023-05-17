@@ -22,8 +22,9 @@ class NN:
         self._add_last_layer()
 
     def _add_danse_layers_(self):
-        for layer_size in self.data[:-1]:
-            self.model.add(BatchNormalization())
+        for nr, layer_size in enumerate(self.data[1:-1]):
+            name='batch_norm_'+str(nr)
+            self.model.add(BatchNormalization(name=name))
             self.model.add(Dense(units=layer_size, activation='relu',
                                  kernel_initializer='he_uniform'))
 

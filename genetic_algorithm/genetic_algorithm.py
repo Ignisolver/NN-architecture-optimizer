@@ -1,11 +1,11 @@
 from dataclasses import dataclass
-from functools import cache
+# from functools import cache
 from time import time
 
 from constans_and_types import SizeParams, Sets
 from data_loader import load_data
-from population import Population
-from net_data import NetworkData
+from .population import Population
+from .net_data import NetworkData
 from neuronal_network import NN
 
 
@@ -64,7 +64,7 @@ class GeneticAlgorithm:
             print('.', end='')
         print()
 
-    @cache
+    # @cache
     def _evaluate_network(self, net: NetworkData):
         nn = NN(net)
         nn.train_network(self.sets.trainX, self.sets.trainY)

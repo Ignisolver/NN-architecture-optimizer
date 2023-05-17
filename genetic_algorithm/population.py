@@ -1,8 +1,8 @@
 from random import randrange, sample
-from typing import List, Self, Tuple
+from typing import List, Tuple
 
 from numpy.random import rand
-from net_data import NetworkData
+from .net_data import NetworkData
 from constans_and_types import SizeParams
 
 
@@ -12,7 +12,7 @@ class Population:
         self.list_: List[NetworkData] = []
         self.net_param = net_param
 
-    def __add__(self, other) -> Self:
+    def __add__(self, other) :
         self.list_ += other.list_
         return self
 
@@ -22,7 +22,7 @@ class Population:
     def random_initialize(self,
                           size: int,
                           f_l_size: Tuple[int, int],
-                          layer_param: SizeParams) -> Self:
+                          layer_param: SizeParams):
         self.list_.extend([NetworkData(layer_param)] * size)
         for indi_nr in range(size):
             size = randrange(*self.net_param)

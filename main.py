@@ -1,7 +1,7 @@
 from time import time
 
 from constans_and_types import SizeParams
-from genetic_algorithm import PopParam, GeneticAlgorithm
+from genetic_algorithm.genetic_algorithm import PopParam, GeneticAlgorithm
 
 if __name__ == "__main__":
     net_par = SizeParams(min_=5, max_=10, step=1)
