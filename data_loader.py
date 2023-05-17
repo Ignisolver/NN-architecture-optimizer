@@ -9,16 +9,19 @@ from keras.utils import to_categorical
 from neuronal_network import NN
 
 
-def load_data():
+def load_data(fraction=1):
     set_path = PROJECT_PATH.joinpath('set')
 
-    images=[]
-    labels=[]
+    images = []
+    labels = []
 
     for photo in os.listdir(set_path):
         im = cv2.imread(str(set_path.joinpath(photo)), cv2.IMREAD_COLOR)
         images.append(im)
         labels.append(int('class1' in photo))
+
+    # taking fraction of the prepared dataset
+    images, labels = images[:int(len(images) * fraction)], labels[:int(len(images) * fraction)]
 
     trainX, testX, trainY, testY = train_test_split(images, labels, test_size=0.25, random_state=42)
 
@@ -26,3 +29,4 @@ def load_data():
     Y_test = to_categorical(testY, num_classes=2)
 
     return np.array(trainX), Y_train, np.array(testX), Y_test
+
