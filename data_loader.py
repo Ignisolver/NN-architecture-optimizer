@@ -30,6 +30,3 @@ def load_data(fraction=1):
 
     return np.array(trainX), Y_train, np.array(testX), Y_test
 
-
-if __name__ == "__main__":
-    nn = NN([2, 64, 10])
