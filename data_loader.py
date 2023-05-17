@@ -26,7 +26,3 @@ def load_data():
     Y_test = to_categorical(testY, num_classes=2)
 
     return np.array(trainX), Y_train, np.array(testX), Y_test
-
-
-if __name__ == "__main__":
-    nn=NN([2,64,10])

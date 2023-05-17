@@ -1,8 +1,7 @@
 from dataclasses import dataclass
-# from functools import cache
-from time import time
+from functools import cache
 
-from constans_and_types import SizeParams, Sets
+from constans_and_types import Sets
 from data_loader import load_data
 from .population import Population
 from .net_data import NetworkData
@@ -25,7 +24,7 @@ class PopParam:
 
 
 class GeneticAlgorithm:
-    def __init__(self, net_param,  f_l_size,layer_param, num_epoch,
+    def __init__(self, net_param, f_l_size,layer_param, num_epoch,
                  pop_par: PopParam):
         self.net_param = net_param
         self.f_l_size = f_l_size
@@ -64,22 +63,10 @@ class GeneticAlgorithm:
             print('.', end='')
         print()
 
-    # @cache
+    @cache
     def _evaluate_network(self, net: NetworkData):
         nn = NN(net)
         nn.train_network(self.sets.trainX, self.sets.trainY)
         acc = nn.evaluate_network(self.sets.testX, self.sets.testY)
         return acc
 
-
-if __name__ == "__main__":
-    net_par = SizeParams(min_=3, max_=10, step=1)
-    f_l_size = (300, 2)
-    lay_par = SizeParams(min_=50, max_=500, step=50)
-    pop_par = PopParam(size=10, n_best=6, leave=2, cross=3,
-                       mut_in_pop=2, cross_mut=3, mut_in_indi=2)
-    ga = GeneticAlgorithm(net_par, f_l_size, lay_par, 100, pop_par)
-    start = time()
-    res = ga.run_algorithm()
-    print("Time: ", time()-start)
-    print("RESULT: ",  res)

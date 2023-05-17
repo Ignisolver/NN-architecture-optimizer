@@ -1,12 +1,11 @@
 from keras.models import Sequential
-
-from keras.layers import Flatten
 from keras.layers import Dense, BatchNormalization
 from keras.optimizers import *
 from keras.callbacks import History
 import matplotlib.pyplot as plt
 from keras.callbacks import EarlyStopping
 from constans_and_types import MODELS_PATH, BASE_MODEL
+
 
 class NN:
     def __init__(self, data):
@@ -23,17 +22,16 @@ class NN:
 
     def _add_danse_layers_(self):
         for nr, layer_size in enumerate(self.data[1:-1]):
-            name='batch_norm_'+str(nr)
+            name = 'batch_norm_'+str(nr)
             self.model.add(BatchNormalization(name=name))
             self.model.add(Dense(units=layer_size, activation='relu',
                                  kernel_initializer='he_uniform'))
 
     def _add_last_layer(self):
-        self.model.add(Flatten())
         self.model.add(Dense(2, activation='softmax'))
 
-    def save_model(self):
-        self.model.save(MODELS_PATH.joinpath('Ready_base_model'))
+    def save_model(self, name):
+        self.model.save(MODELS_PATH.joinpath(name))
 
     def train_network(self, trainX, trainY, opt=Adam, loss='binary_crossentropy',
                       learning_rate=0.0001, epoch=5):
