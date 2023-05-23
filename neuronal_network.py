@@ -10,7 +10,7 @@ from constans_and_types import MODELS_PATH, BASE_MODEL
 class NN:
     def __init__(self, data):
         self.data = data
-        self.model = Sequential(BASE_MODEL.layers)
+        self.model = Sequential(BASE_MODEL.layers[:1] + BASE_MODEL.layers[-1:])
         self.history = History()
         self.acc = 0
         self.loss = 0
@@ -34,16 +34,16 @@ class NN:
         self.model.save(MODELS_PATH.joinpath(name))
 
     def train_network(self, trainX, trainY, opt=Adam, loss='binary_crossentropy',
-                      learning_rate=0.0001, epoch=5):
+                      learning_rate=0.0001, epoch=200):
         self._prepare_model_to_training(opt, loss, learning_rate)
 
         es = EarlyStopping(monitor='val_loss', patience=5)
         self.history = self.model.fit(trainX, trainY, batch_size=32,
                                       epochs=epoch, verbose=1,
-                                      validation_split=0.3,callbacks=[es])
+                                      validation_split=0.3, callbacks=[es])
 
     def _prepare_model_to_training(self, opt, loss, learning_rate):
-        self.model.summary()
+        # self.model.summary()
         self.model.compile(
             loss=loss,
             optimizer=opt(learning_rate=learning_rate),
@@ -54,6 +54,7 @@ class NN:
         stats = self.model.evaluate(testX, testY, batch_size=32, verbose=1)
         self.loss = stats[0]
         self.acc = stats[1]
+        return self.acc
 
     def print(self):
         return self.model.summary()

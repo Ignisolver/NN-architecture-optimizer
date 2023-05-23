@@ -91,7 +91,7 @@ class Population:
 
     def __repr__(self):
         str_ = "Population:\n"
-        for net_data in self.list_:
-            str_ += '\t' + str(net_data) + '\n'
+        for nr, net_data in enumerate(self.list_):
+            str_ += ' \t' + str(nr) + ": " + str(net_data) + '\n'
         str_ += "\t___"
         return str_
