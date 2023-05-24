@@ -10,6 +10,7 @@ if __name__ == "__main__":
     pop_par = PopParam(size=10, cross=3,
                        mut_in_pop=2, cross_mut=5, mut_in_indi=1)
     ga = GeneticAlgorithm(net_par, f_l_size, lay_par, pop_par, num_epoch=50)
+
     start = time()
     res = ga.run_algorithm()
     print("Time: ", time()-start)

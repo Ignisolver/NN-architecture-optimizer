@@ -1,11 +1,15 @@
 from dataclasses import dataclass
 from functools import cache
+import gc
+from numba import cuda
+from keras.backend import clear_session
 
 from constans_and_types import Sets
 from data_loader import load_data
 from .population import Population
-from .net_data import NetworkData
 from neuronal_network import NN
+
+
 
 
 @dataclass
@@ -25,8 +29,9 @@ class GeneticAlgorithm:
         self.layer_param = layer_param
         self.num_epoch = num_epoch
         self.pop_par = pop_par
-        self.tested = {}
+        self.acc_mem = {}
         self.sets = Sets(*load_data())
+
 
     def run_algorithm(self):
         pop = Population(net_param=self.net_param)
@@ -53,15 +58,29 @@ class GeneticAlgorithm:
     def _evaluate_population(self, pop: Population):
         for indi_nr, indi in enumerate(pop):
             pop_size = len(pop.list_)
+            print(f"EVALUATION {indi_nr+1}/{pop_size}", indi, "...")
             if indi.new:
-                print(f"EVALUATION {indi_nr+1}/{pop_size}", indi, "...")
-                indi.acc = self._evaluate_network(indi)
+                t_indi = tuple(indi.list_)
+                if t_indi in self.acc_mem.keys():
+                    indi.acc = self.acc_mem[t_indi]
+                else:
+                    indi.acc = self._evaluate_network(indi)
+                    self.acc_mem[t_indi] = indi.acc
         print()
 
     @cache
-    def _evaluate_network(self, net: NetworkData):
-        nn = NN(net)
+    def _evaluate_network(self, net_list):
+        nn = NN(net_list)
         nn.train_network(self.sets.trainX, self.sets.trainY)
         acc = nn.evaluate_network(self.sets.testX, self.sets.testY)
+
+        clear_session()
+
+        del nn
+        gc.collect()
+
+        cuda.select_device(0)
+        cuda.close()
+
         return acc
 

@@ -38,7 +38,7 @@ class NN:
         self._prepare_model_to_training(opt, loss, learning_rate)
 
         es = EarlyStopping(monitor='val_loss', patience=5)
-        self.history = self.model.fit(trainX, trainY, batch_size=32,
+        self.model.fit(trainX, trainY, batch_size=32,
                                       epochs=epoch, verbose=1,
                                       validation_split=0.3, callbacks=[es])
 
