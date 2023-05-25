@@ -4,6 +4,7 @@ from keras.optimizers import *
 from keras.callbacks import History
 import matplotlib.pyplot as plt
 from keras.callbacks import EarlyStopping
+
 from constans_and_types import MODELS_PATH, BASE_MODEL
 
 
@@ -38,7 +39,7 @@ class NN:
         self._prepare_model_to_training(opt, loss, learning_rate)
 
         es = EarlyStopping(monitor='val_loss', patience=5)
-        self.model.fit(trainX, trainY, batch_size=32,
+        self.model.fit(trainX, trainY, batch_size=10,
                                       epochs=epoch, verbose=1,
                                       validation_split=0.3, callbacks=[es])
 

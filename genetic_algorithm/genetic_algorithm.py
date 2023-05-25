@@ -79,8 +79,8 @@ class GeneticAlgorithm:
         del nn
         gc.collect()
 
-        cuda.select_device(0)
-        cuda.close()
+        # cuda.select_device(0)
+        # cuda.close()
 
         return acc
 
