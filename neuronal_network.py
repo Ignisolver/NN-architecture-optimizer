@@ -1,5 +1,5 @@
 from keras.models import Sequential
-from keras.layers import Dense, BatchNormalization
+from keras.layers import Dense, BatchNormalization,Dropout
 from keras.optimizers import *
 from keras.callbacks import History
 import matplotlib.pyplot as plt
