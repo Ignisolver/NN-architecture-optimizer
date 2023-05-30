@@ -8,7 +8,7 @@ import tensorflow as tf
 
 if __name__ == "__main__":
     physical_devices = tf.config.list_physical_devices('GPU')
-    tf.config.experimental.set_memory_growth(physical_devices[0], True)
+    # tf.config.experimental.set_memory_growth(physical_devices[0], True)
     tf.keras.mixed_precision.set_global_policy('mixed_float16')
     os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 
@@ -18,6 +18,7 @@ if __name__ == "__main__":
     pop_par = PopParam(size=7, cross=2,
                        mut_in_pop=2, cross_mut=3, mut_in_indi=1)
     init_pop = [
+        [-1, 1000, 1000, 1000, 200, -1]
         [-1, 200, 150, 100, 50, -1],
         [-1, 200, 200, 200, 200, -1],
         [-1, 100, 100, 100, 100, -1],
