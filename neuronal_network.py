@@ -1,5 +1,5 @@
 from keras.models import Sequential
-from keras.layers import Dense, BatchNormalization
+from keras.layers import Dense, BatchNormalization,Dropout
 from keras.optimizers import *
 from keras.callbacks import History
 import matplotlib.pyplot as plt
@@ -27,6 +27,7 @@ class NN:
             self.model.add(BatchNormalization(name=name))
             self.model.add(Dense(units=layer_size, activation='relu',
                                  kernel_initializer='he_uniform'))
+            self.model.add(Dropout(0.3))
 
     def _add_last_layer(self):
         self.model.add(Dense(2, activation='softmax'))
