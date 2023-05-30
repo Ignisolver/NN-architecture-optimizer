@@ -38,7 +38,8 @@ class NN:
                       learning_rate=0.0001, epoch=200):
         self._prepare_model_to_training(opt, loss, learning_rate)
 
-        es = EarlyStopping(monitor='val_loss', patience=5)
+        es = EarlyStopping(monitor='val_loss', patience=3,
+                           restore_best_weights=True, start_from_epoch=10)
         self.model.fit(trainX, trainY, batch_size=10,
                                       epochs=epoch, verbose=1,
                                       validation_split=0.3, callbacks=[es])

@@ -23,7 +23,7 @@ class PopParam:
 
 class GeneticAlgorithm:
     def __init__(self, net_param, f_l_size, layer_param, pop_par: PopParam,
-                 num_epoch):
+                 num_epoch, init_pop=None):
         self.net_param = net_param
         self.f_l_size = f_l_size
         self.layer_param = layer_param
@@ -31,16 +31,22 @@ class GeneticAlgorithm:
         self.pop_par = pop_par
         self.acc_mem = {}
         self.sets = Sets(*load_data())
-
+        self._init_pop = init_pop
 
     def run_algorithm(self):
         pop = Population(net_param=self.net_param)
-        pop.random_initialize(self.pop_par.size, self.f_l_size,
-                              self.layer_param)
+        if self._init_pop is None:
+            pop.random_initialize(self.pop_par.size, self.f_l_size,
+                                  self.layer_param)
+        else:
+            pop.load_init_pop(self._init_pop, self.layer_param)
         print(pop)
         self._evaluate_population(pop)
         for e_nr in range(self.num_epoch):
             best = pop.get_best_stat(self.pop_par.size)
+            best = best.get_best()
+            print("BEST LIST:")
+            best.print_to_restore()
             print("BEST: ", best.list_[0])
             cross = best.do_crossing(self.pop_par.cross)
             cross_mut = best.do_crossing(self.pop_par.cross_mut)
@@ -65,6 +71,7 @@ class GeneticAlgorithm:
                     indi.acc = self.acc_mem[t_indi]
                 else:
                     indi.acc = self._evaluate_network(indi)
+                    # indi.acc = abs(100-sum(indi.list_[1:-1])/len(indi.list_)-2)/200
                     self.acc_mem[t_indi] = indi.acc
         print()
 
