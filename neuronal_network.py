@@ -36,7 +36,7 @@ class NN:
         self.model.save(MODELS_PATH.joinpath(name))
 
     def train_network(self, trainX, trainY, opt=Adam, loss='binary_crossentropy',
-                      learning_rate=0.0001, epoch=10):
+                      learning_rate=0.00001, epoch=10):
         self._prepare_model_to_training(opt, loss, learning_rate)
 
         es = EarlyStopping(monitor='val_loss', patience=3,
