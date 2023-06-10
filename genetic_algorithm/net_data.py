@@ -5,11 +5,12 @@ from constans_and_types import SizeParams
 
 
 class NetworkData:
-    def __init__(self, layer_par: SizeParams):
+    def __init__(self, layer_par: SizeParams, init_list=None):
         super().__init__()
         self.acc_ = None
         self.new = True
-        self.list_: List[int] = []
+
+        self.list_: List[int] = [] if init_list is None else init_list
         self.layer_par = layer_par
 
     @property

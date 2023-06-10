@@ -19,6 +19,10 @@ class Population:
     def __iter__(self):
         return iter(self.list_)
 
+    def load_init_pop(self, pop_list, layer_param: SizeParams):
+        self.list_ = [NetworkData(layer_param, init_list=init_list)
+                      for init_list in pop_list]
+
     def random_initialize(self,
                           size: int,
                           f_l_size: Tuple[int, int],
@@ -95,3 +99,9 @@ class Population:
             str_ += ' \t' + str(nr) + ": " + str(net_data) + '\n'
         str_ += "\t___"
         return str_
+
+    def print_to_restore(self):
+        print('[', end='')
+        for net_data in self.list_:
+            print(net_data.list_, end=',\n')
+        print(']')
