@@ -27,7 +27,9 @@ summary(model)
 # params len
 total_params <- 0
 for (layer in model$layers) {
-  if (grepl('dense',layer$get_config()$name)) {
+  #if (grepl('dense',layer$get_config()$name)) {
+  if ((grepl('dense_3',layer$get_config()$name)) || (grepl('dense_3',layer$get_config()$name))) {
+
     for (param in layer$trainable_weights) {
       param_shape <- dim(param$value())
       param_count <- prod(param_shape)
@@ -46,7 +48,9 @@ set_model_weights <- function(new_weights_list) {
   index <- 1
   for (layer in model$layers) {
     #cat(summary(layer))
-    if (grepl('dense',layer$get_config()$name)) {
+    #if (grepl('dense',layer$get_config()$name)) {
+    if ((grepl('dense_3',layer$get_config()$name)) || (grepl('dense_3',layer$get_config()$name))) {
+
       params_to_set <- list()
       # weights
       param <- layer$trainable_weights[[1]]
@@ -113,9 +117,10 @@ dataset <- load_data(FALSE,"C:\\backup\\Pulpit\\stochastyka\\NN-architecture-opt
 length(dataset[[1]])
 
 
+
 score <- function(samples = 100, dataset)
 {
-  scores <- 0
+  scores <- NULL
   arrays<- NULL
   #TODO faster batch on GPU
   random_indexes <- sample(length(dataset[[1]]), samples)
@@ -124,18 +129,21 @@ score <- function(samples = 100, dataset)
     if (is.null(arrays))
     {
       arrays <- array(dataset[[1]][[i]], dim = c(1, 50, 50, 3))
+      scores <- array(dataset[[2]][[i]])
     }
     else
     {
       X <- array(dataset[[1]][[i]], dim = c(1, 50, 50, 3))
       arrays <- abind(arrays, X, along = 1)
+      scores <- abind(scores,array(dataset[[2]][[i]]))
     }
   }
   predictions <- predict(model, arrays)
-
-  scores <- scores / samples
+  predicted_class <- apply(predictions, 1, which.max) -1
+  scores <- sum(scores==predicted_class) / samples
   return(scores)
 }
+
 
 
 neural_function <- function(new_weights_list)
@@ -147,7 +155,7 @@ neural_function <- function(new_weights_list)
 
 lower <- rep(-512, total_params)
 upper <- rep(512, total_params)
-sigma <- list(rep(200, total_params), rep(100, total_params), rep(50, total_params))
+sigma <- list(rep(200, total_params), rep(100, total_params))
 ga_config <- list(
   list(
     pmutation = 0.4,
@@ -156,32 +164,30 @@ ga_config <- list(
   list(
     pmutation = 0.2,
     mutation = rtnorm_mutation(lower, upper, sigma[[2]])
-  ),
-  list(
-    pmutation = 0.2,
-    mutation = rtnorm_mutation(lower, upper, sigma[[3]])
   )
 )
+# TODO tylko wybrane/nieużywane neurony - drastycznie zredukować wymiarowość problemu
+# zmiana dokładności zmiennych(??)
+# zmiejszenie batcha dla score w korzeniu
+
 HMS <- hms(
   #fitness = Eggholder,
   fitness = neural_function,
   minimize = FALSE,
-  tree_height = 3,
+  tree_height = 2,
   lower = lower,
   upper = upper,
   run_metaepoch = ga_metaepoch(ga_config),
-  population_sizes = c(50, 30, 15),
+  population_sizes = c(30, 10),
   sigma = sigma,
   gsc = gsc_max_fitness_evaluations(200),
-  sc = sc_max_metric(euclidean_distance, c(40, 20, 10)),
+  sc = sc_max_metric(euclidean_distance, c(40, 20)),
   lsc = lsc_metaepochs_without_improvement(25),
   monitor_level = "none",
   with_gradient_method = TRUE
 )
-HMS@best_solution
+a<-HMS@best_solution
 
+save_model_hdf5(model,"C:\\backup\\Pulpit\\stochastyka\\NN-architecture-optimizer\\modelik")
 
-
-
-
-
+(score(1000,dataset))
