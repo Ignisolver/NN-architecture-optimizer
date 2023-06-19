@@ -26,4 +26,7 @@ TODO:
 
 ## Etap - 2 - Hierarchic Memetic Search
 Algorytm HMS ma za zadanie wytrenować sieć neuronową
-- research
+- Usage:
+  -  clone [repo](https://github.com/WojtAcht/hms/tree/main)
+  -  run `model_optimalization.R` (configure minoconda environment)
+  -  TODO dla szybszego działania trzeba dodać obsługę GPU dla kerasa w minicondzie w R :(
